@@ -9,5 +9,26 @@
         >
            <!--xmlns:conv="using:Demoex"-->
 
-       <ItemsControl ItemsSource="{Binding Products}"/>
+       <ItemsControl ItemsSource="{Binding Products}">
+       <ItemsControl.ItemTemplate>
+		   <DataTemplate>
+			   <DockPanel LastChildFill="True">
+				   <TextBlock Text="{Binding Image}" DockPanel.Dock="Left" />
+				   <TextBlock Text="{Binding Price}" FontSize="24" DockPanel.Dock="Right" />
+                   <WrapPanel>
+                       <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding Manufacture.Name}"/>
+                            <TextBlock Text=" | "/>
+                            <TextBlock Text="{Binding Name}"/>
+                       </WrapPanel>
+                   </WrapPanel>
+                   <TextBlock Text="{Binding Structure}"/>
+				   <TextBlock Text="{Binding Category.Name ,  StringFormat = категория: {0} }" />
+               </DockPanel>
+           </DataTemplate>
+       </ItemsControl.ItemTemplate>
+       
+       </ItemsControl>
+    
+
 </UserControl>
