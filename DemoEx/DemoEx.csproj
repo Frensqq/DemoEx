@@ -13,6 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\Новая папка1\**" />
+    <AvaloniaXaml Remove="Assets\Новая папка1\**" />
+    <Compile Remove="Assets\Новая папка1\**" />
+    <EmbeddedResource Remove="Assets\Новая папка1\**" />
+    <None Remove="Assets\Новая папка1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.11" />
     <PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.11" />

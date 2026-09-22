@@ -8,12 +8,18 @@
         x:DataType="vm:MainWindowViewModel"
         >
            <!--xmlns:conv="using:Demoex"-->
-
+       <ScrollViewer VerticalScrollBarVisibility="Auto">
        <ItemsControl ItemsSource="{Binding Products}">
        <ItemsControl.ItemTemplate>
 		   <DataTemplate>
 			   <DockPanel LastChildFill="True">
-				   <TextBlock Text="{Binding Image}" DockPanel.Dock="Left" />
+                   <Image 
+                       Source="{ Binding Image,Converter={StaticResource ImageConverter}}" 
+                       Width="120" 
+                       Height="120" 
+                       Stretch="Uniform" 
+                       DockPanel.Dock="Left"
+                       />
 				   <TextBlock Text="{Binding Price}" FontSize="24" DockPanel.Dock="Right" />
                    <WrapPanel>
                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -29,6 +35,7 @@
        </ItemsControl.ItemTemplate>
        
        </ItemsControl>
+       </ScrollViewer>
     
 
 </UserControl>

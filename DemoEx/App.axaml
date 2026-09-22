@@ -2,14 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="DemoEx.App"
              xmlns:local="using:DemoEx"
+             xmlns:conv="clr-namespace:DemoEx.Resources"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+
+    <Application.Resources>
+        <conv:ImageConverter x:Key="ImageConverter"/>
+    </Application.Resources>
 </Application>

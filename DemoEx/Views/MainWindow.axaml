@@ -6,16 +6,34 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="DemoEx.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/ChydoObuv.ico"
         Title="DemoEx">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <UserControl>
-    </UserControl>
+
+        <Grid ColumnDefinitions = "Auto,*" RowDefinitions = "Auto,*,Auto" >
+
+            <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+                 <StackPanel Width="100" Background="Aqua"></StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+
+                <StackPanel Height="100" Background="White"></StackPanel>
+        
+            </Grid>
+
+            <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding Page}"/>
+
+
+            <Grid Grid.Column="1" Grid.Row="2">
+                <StackPanel Height="100" Background="White"></StackPanel>
+            </Grid>
+        </Grid>
+
+    
 
 </Window>
