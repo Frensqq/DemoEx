@@ -28,8 +28,11 @@
                             <TextBlock Text="{Binding Name}"/>
                        </WrapPanel>
                    </WrapPanel>
-                   <TextBlock Text="{Binding Structure}"/>
-				   <TextBlock Text="{Binding Category.Name ,  StringFormat = категория: {0} }" />
+                   <StackPanel Orientation="Vertical">
+					   <TextBlock Text="{Binding Structure}"/>
+				       <TextBlock Text="{Binding Category.Name ,  StringFormat = категория: {0} }" />
+                   </StackPanel>
+                   
                </DockPanel>
            </DataTemplate>
        </ItemsControl.ItemTemplate>

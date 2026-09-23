@@ -16,7 +16,7 @@ namespace DemoEx.ViewModels
         static DemoexContext db = new DemoexContext();
 
         [ObservableProperty]
-        List<Product> products = db.Products.Include(x => x.Category).ToList();
+        List<Product> products = db.Products.Include(x => x.Category).Include(x => x.Manufacture).ToList();
 
 
 
