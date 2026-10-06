@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using DemoEx.Models;
+using DemoEx.ViewModels;
 
 namespace DemoEx.Views
 {
@@ -8,5 +10,6 @@ namespace DemoEx.Views
         {
             InitializeComponent();
         }
+
     }
 }

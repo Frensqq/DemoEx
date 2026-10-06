@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemoEx.Models;
 
@@ -32,4 +33,6 @@ public partial class Product
     public virtual ICollection<Stok> Stoks { get; set; } = new List<Stok>();
 
     public virtual SubCategory Subcategory { get; set; } = null!;
+
+
 }

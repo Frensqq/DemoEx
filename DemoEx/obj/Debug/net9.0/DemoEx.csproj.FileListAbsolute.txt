@@ -342,3 +342,4 @@ W:\Colledge\0101\DemoEx\DemoEx\obj\Debug\net9.0\refint\DemoEx.dll
 W:\Colledge\0101\DemoEx\DemoEx\obj\Debug\net9.0\DemoEx.pdb
 W:\Colledge\0101\DemoEx\DemoEx\obj\Debug\net9.0\DemoEx.genruntimeconfig.cache
 W:\Colledge\0101\DemoEx\DemoEx\obj\Debug\net9.0\ref\DemoEx.dll
+C:\Users\ly4do\OneDrive\Desktop\0101\DemoEx\DemoEx\obj\Debug\net9.0\DemoEx.sourcelink.json
