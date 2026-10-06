@@ -18,7 +18,7 @@
             <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
                  <StackPanel Width="100" Background="LightSeaGreen" Orientation="Vertical" HorizontalAlignment="Center">
                         <TextBlock TextAlignment="Center" FontSize="24" Foreground="White" FontWeight="600" Text="{Binding CurrentUser}"/>
-                        <Button HorizontalAlignment="Center" Content="Вход"></Button>
+                        <Button HorizontalAlignment="Center" Content="Вход" Command="{Binding ToLogPageCommand}"></Button>
                  </StackPanel>
             </Grid>
 

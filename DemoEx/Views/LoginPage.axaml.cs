@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace DemoEx;
+namespace DemoEx.Views;
 
 public partial class LoginPage : UserControl
 {

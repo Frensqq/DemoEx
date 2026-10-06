@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,6 +6,30 @@
               xmlns:vm="using:DemoEx.ViewModels"
 			 xmlns:conv="clr-namespace:DemoEx.Resources"
 			 x:DataType="vm:MainWindowViewModel"
-             x:Class="DemoEx.LoginPage">
-  
+             x:Class="DemoEx.Views.LoginPage">
+    <StackPanel VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Width="250"
+                Spacing="10">
+
+        <TextBlock Text="Авторизация"
+                   FontSize="24"
+                   HorizontalAlignment="Center"/>
+
+        <TextBox Text="{Binding Login}" Watermark="Логин"/>
+
+        <TextBlock Text="{Binding LoginError}"
+                   Foreground="Red"
+                   TextWrapping="Wrap"/>
+
+        <Button Content="Войти"
+                HorizontalAlignment="Stretch"
+                Command="{Binding LoginInCommand}"/>
+
+        <Button Content="Назад"
+                HorizontalAlignment="Stretch"
+                Command="{Binding BackCommand}"/>
+
+    </StackPanel>
+
 </UserControl>

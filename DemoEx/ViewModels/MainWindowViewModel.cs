@@ -15,9 +15,40 @@ namespace DemoEx.ViewModels
         [ObservableProperty]
         UserControl page = new ProductPage();
 
+
         [ObservableProperty]
         string currentUser = "Гость";
 
+
+        [RelayCommand]
+        void ToLogPage()
+        {
+            Page = new LoginPage();
+        }
+
+        [RelayCommand]
+        void ToProductPage()
+        {
+            Page = new ProductPage();
+        }
+
+        [ObservableProperty]
+        string login = string.Empty;
+
+        [ObservableProperty]
+        string loginError = string.Empty;
+
+        [RelayCommand]
+        void LoginIn()
+        {
+            // логика позже
+        }
+
+        [RelayCommand]
+        void Back()
+        {
+            Page = new ProductPage();
+        }
 
 
         static DemoexContext db = new DemoexContext();
