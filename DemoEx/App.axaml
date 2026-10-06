@@ -3,7 +3,8 @@
              x:Class="DemoEx.App"
              xmlns:local="using:DemoEx"
              xmlns:conv="clr-namespace:DemoEx.Resources"
-             RequestedThemeVariant="Default">
+             xmlns:convCol="clr-namespace:DemoEx.Resources"
+             RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
@@ -12,9 +13,17 @@
 
     <Application.Styles>
         <FluentTheme />
+
+        <Style Selector="TextBlock.hasDiscount">
+            <Setter Property="Foreground" Value="red"/>
+            <Setter Property="Background" Value="white"/>
+            <Setter Property="FontWeight" Value="700"/>
+            <Setter Property="TextDecorations" Value="Strikethrough"/>
+        </Style>
     </Application.Styles>
 
     <Application.Resources>
         <conv:ImageConverter x:Key="ImageConverter"/>
+        <convCol:ColorConverter x:Key="ColorConverter"/>
     </Application.Resources>
 </Application>

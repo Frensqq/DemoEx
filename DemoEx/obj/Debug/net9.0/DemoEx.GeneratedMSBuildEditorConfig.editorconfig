@@ -32,6 +32,9 @@ build_property.EnableCodeStyleSeverity =
 [C:/Users/ly4do/OneDrive/Desktop/0101/DemoEx/DemoEx/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/ly4do/OneDrive/Desktop/0101/DemoEx/DemoEx/Views/LoginPage.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/ly4do/OneDrive/Desktop/0101/DemoEx/DemoEx/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

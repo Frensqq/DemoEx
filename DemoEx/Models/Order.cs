@@ -14,4 +14,7 @@ public partial class Order
     public virtual ICollection<DetailOrder> DetailOrders { get; set; } = new List<DetailOrder>();
 
     public virtual User LoginNavigation { get; set; } = null!;
+
+
+
 }

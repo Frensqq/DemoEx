@@ -1,44 +1,77 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="DemoEx.Views.ProductPage"
-        xmlns:vm="using:DemoEx.ViewModels"
-        x:DataType="vm:MainWindowViewModel"
-        >
-           <!--xmlns:conv="using:Demoex"-->
-       <ScrollViewer VerticalScrollBarVisibility="Auto">
-       <ItemsControl ItemsSource="{Binding Products}">
-       <ItemsControl.ItemTemplate>
-		   <DataTemplate>
-			   <DockPanel LastChildFill="True">
-                   <Image 
-                       Source="{ Binding Image,Converter={StaticResource ImageConverter}}" 
-                       Width="120" 
-                       Height="120" 
-                       Stretch="Uniform" 
-                       DockPanel.Dock="Left"
-                       />
-				   <TextBlock Text="{Binding Price}" FontSize="24" DockPanel.Dock="Right" />
-                   <WrapPanel>
-                       <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding Manufacture.Name}"/>
-                            <TextBlock Text=" | "/>
-                            <TextBlock Text="{Binding Name}"/>
-                       </WrapPanel>
-                   </WrapPanel>
-                   <StackPanel Orientation="Vertical">
-					   <TextBlock Text="{Binding Structure}"/>
-				       <TextBlock Text="{Binding Category.Name ,  StringFormat = категория: {0} }" />
-                   </StackPanel>
-                   
-               </DockPanel>
-           </DataTemplate>
-       </ItemsControl.ItemTemplate>
-       
-       </ItemsControl>
-       </ScrollViewer>
-    
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="DemoEx.Views.ProductPage"
+			 xmlns:vm="using:DemoEx.ViewModels"
+			 xmlns:conv="clr-namespace:DemoEx.Resources"
+			 x:DataType="vm:MainWindowViewModel"
+			 >
+	<!--xmlns:conv="using:Demoex"-->
+	<ScrollViewer VerticalScrollBarVisibility="Auto">
+		<ItemsControl ItemsSource="{Binding Products}">
+			<ItemsControl.ItemTemplate >
+				<DataTemplate >
+
+					<Grid Grid.ColumnDefinitions="Auto,*,Auto" Margin="10" 
+						  Background="{Binding Count, Converter={StaticResource ColorConverter}}" >
+
+						<Image Grid.Column="0"
+							   Source="{Binding Image, Converter={StaticResource ImageConverter}}"
+							   Width="120"
+							   Height="120"
+							   Stretch="Uniform"
+							   Margin="8"
+							   VerticalAlignment="Center"/>
+
+						<StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+							<TextBlock Classes.hasDiscount = "{Binding Discount}"  Text="{Binding Price}"
+								   FontSize="24"
+								   VerticalAlignment="Center"/>	
+							<TextBlock IsVisible="{Binding Discount}" Text="{Binding DiscountPrice}"
+								   FontSize="16"
+								   FontWeight="400"
+								   VerticalAlignment="Center"/>
+						</StackPanel>
+								  
+
+						<Grid Grid.Column="1"
+							  HorizontalAlignment="Stretch"
+							  VerticalAlignment="Stretch">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+
+							<WrapPanel Grid.Row="0"
+									   Orientation="Horizontal"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Top">
+								<TextBlock Text="{Binding Manufacture.Name}"/>
+								<TextBlock Text=" | "/>
+								<TextBlock Text="{Binding Name}"/>
+							</WrapPanel>
+
+							<StackPanel Grid.Row="1"
+										Orientation="Vertical"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										Margin="8,8,8,8">
+								<TextBlock Text="{Binding Category.Name ,  StringFormat = Категория: {0} }" />
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Count,  StringFormat = Колличество: {0} }"/>
+									<TextBlock Text="{Binding CountText }" Padding="5,0"/>
+								</StackPanel>
+								<TextBlock Text="{Binding Structure,  StringFormat = Состав: {0} }"/>
+							</StackPanel>
+						</Grid>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+
+		</ItemsControl>
+	</ScrollViewer>
+
 
 </UserControl>
