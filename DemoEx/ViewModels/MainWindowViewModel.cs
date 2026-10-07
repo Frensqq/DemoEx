@@ -23,6 +23,7 @@ namespace DemoEx.ViewModels
         [RelayCommand]
         void ToLogPage()
         {
+            CurrentUser = "Гость";
             Page = new LoginPage();
         }
 
@@ -41,7 +42,17 @@ namespace DemoEx.ViewModels
         [RelayCommand]
         void LoginIn()
         {
-            // логика позже
+            var current = Users.FirstOrDefault(u => u.Login == Login);
+
+
+            if (Login!= null && current != null) {
+                CurrentUser = current.Name;
+                Page = new ProductPage();
+            }
+            else
+            {
+                LoginError = "Введен не верный логин";
+            }
         }
 
         [RelayCommand]
@@ -52,6 +63,9 @@ namespace DemoEx.ViewModels
 
 
         static DemoexContext db = new DemoexContext();
+
+        [ObservableProperty]
+        List<User> users = db.Users.ToList();
 
         [ObservableProperty]
         List<Product> products = db.Products

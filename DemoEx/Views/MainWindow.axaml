@@ -16,14 +16,14 @@
         <Grid ColumnDefinitions = "Auto,*" RowDefinitions = "Auto,*,Auto" >
 
             <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-                 <StackPanel Width="100" Background="LightSeaGreen" Orientation="Vertical" HorizontalAlignment="Center">
+                 <StackPanel Width="150" Background="LightSeaGreen" Orientation="Vertical" HorizontalAlignment="Center">
                         <TextBlock TextAlignment="Center" FontSize="24" Foreground="White" FontWeight="600" Text="{Binding CurrentUser}"/>
                         <Button HorizontalAlignment="Center" Content="Вход" Command="{Binding ToLogPageCommand}"></Button>
                  </StackPanel>
             </Grid>
 
             <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background = "Aqua"  >
-                <StackPanel Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Foreground="White" FontSize="24" FontWeight="800">Чудо обувь - чудо а не обувь</TextBlock>
                 </StackPanel>
         

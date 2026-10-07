@@ -26,7 +26,7 @@
                 HorizontalAlignment="Stretch"
                 Command="{Binding LoginInCommand}"/>
 
-        <Button Content="Назад"
+        <Button Content="Продолжить как гость"
                 HorizontalAlignment="Stretch"
                 Command="{Binding BackCommand}"/>
 
