@@ -28,7 +28,7 @@
 
         <Button Content="Продолжить как гость"
                 HorizontalAlignment="Stretch"
-                Command="{Binding BackCommand}"/>
+                Command="{Binding ToProductPageCommand}"/>
 
     </StackPanel>
 

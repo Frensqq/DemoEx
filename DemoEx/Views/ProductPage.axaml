@@ -9,11 +9,25 @@
 			 x:DataType="vm:MainWindowViewModel"
 			 >
 	<!--xmlns:conv="using:Demoex"-->
-	<ScrollViewer VerticalScrollBarVisibility="Auto">
-		<ItemsControl ItemsSource="{Binding Products}">
+	<Grid Grid.RowDefinitions="Auto,*">
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+		
+			<StackPanel Orientation="Horizontal" >
+				<TextBlock Margin="10,0" VerticalAlignment="Center">Сортировка - </TextBlock>
+				<ComboBox Margin="10,0" ItemsSource="{Binding SortOption}"  SelectedItem="{Binding SelectedSort}" Width="200"></ComboBox>
+
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" >
+				<TextBlock Margin="10,0" VerticalAlignment="Center">Фильтры - </TextBlock>
+				<ComboBox Margin="10,0" ItemsSource="{Binding FilterOption}"  SelectedItem="{Binding SelectedFilter}"  Width="200"></ComboBox>
+
+			</StackPanel>
+
+		</StackPanel>
+	<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+		<ItemsControl ItemsSource="{Binding SortProducts}">
 			<ItemsControl.ItemTemplate >
 				<DataTemplate >
-
 					<Grid Grid.ColumnDefinitions="Auto,*,Auto" Margin="10" 
 						  Background="{Binding Count, Converter={StaticResource ColorConverter}}" >
 
@@ -72,6 +86,5 @@
 
 		</ItemsControl>
 	</ScrollViewer>
-
-
+	</Grid>
 </UserControl>
