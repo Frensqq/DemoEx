@@ -13,31 +13,45 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-        <Grid ColumnDefinitions = "Auto,*" RowDefinitions = "Auto,*,Auto" >
+    <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,*,Auto">
 
-            <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-                 <StackPanel Width="150" Background="LightSeaGreen" Orientation="Vertical" HorizontalAlignment="Center">
-                        <TextBlock TextAlignment="Center" FontSize="24" Foreground="White" FontWeight="600" Text="{Binding CurrentUser}"/>
-                        <Button HorizontalAlignment="Center" Content="Вход" Command="{Binding ToLogPageCommand}"></Button>
-                 </StackPanel>
-            </Grid>
+        <!-- Боковая панель -->
+        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+            <StackPanel Background="#2E2A2E">
+                <TextBlock TextAlignment="Center"
+                           FontSize="22"
+                           Foreground="White"
+                           FontWeight="600"
+                           Margin="0,24"
+                           Text="{Binding CurrentUser}"/>
 
-            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background = "Aqua"  >
-                <StackPanel Height="50" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Foreground="White" FontSize="24" FontWeight="800">Чудо обувь - чудо а не обувь</TextBlock>
-                </StackPanel>
-        
-            </Grid>
-
-            <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding Page}"/>
-
-            <Grid Grid.Column="1" Grid.Row="2" Background="Coral">
-                <StackPanel Height="30"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                    <TextBlock>frens-project.tech</TextBlock>
-                </StackPanel>
-            </Grid>
+                <Button HorizontalAlignment="Center"
+                        Content="Вход"
+                        Background="#E85A3A"
+                        Foreground="White"
+                        Padding="24,10"
+                        CornerRadius="6"
+                        FontWeight="600"
+                        Command="{Binding ToLogPageCommand}"/>
+            </StackPanel>
         </Grid>
 
-    
+        <!-- Шапка -->
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background="#3A3438">
+            <StackPanel Height="60" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Foreground="White" FontSize="22" FontWeight="700">
+                    Чудо обувь — чудо а не обувь
+                </TextBlock>
+            </StackPanel>
+        </Grid>
 
+        <!-- Контент -->
+        <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding Page}"/>
+
+        <!-- Подвал -->
+        <Grid Grid.Column="1" Grid.Row="2" Background="#1F1C1F">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Foreground="#B0A8A8" Text="frens-project.tech"/>
+        </Grid>
+    </Grid>
 </Window>
