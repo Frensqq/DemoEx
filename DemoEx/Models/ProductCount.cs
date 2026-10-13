@@ -18,32 +18,23 @@ namespace DemoEx.Models
 
         public decimal DiscountPrice => Discount ? Price * (decimal)0.75 : Price;
 
-        public IBrush CountColor
-        {
-            get
-            {
-                if (Count <= 3)
-                    return new SolidColorBrush(Colors.OrangeRed);
-                else
-                    return Brushes.Transparent;
-            }
-        }
+        public IBrush CountColor => Count <= 3
+        ? new SolidColorBrush(Colors.OrangeRed)
+        : Brushes.Transparent;
 
-        public Bitmap ImageBitmap
+        public Bitmap ImageBitmap => LoadImage(Image);
+
+        private static Bitmap LoadImage(string name)
         {
-            get
+            try
             {
-                try
-                {
-                    var uri = new Uri($"avares://DemoEx/Assets/Images/{Image}");
-                    using var s = AssetLoader.Open(uri);
-                    return new Bitmap(s);
-                }
-                catch
-                {
-                    using var s = AssetLoader.Open(new Uri("avares://DemoEx/Assets/picture.png"));
-                    return new Bitmap(s);
-                }
+                using var s = AssetLoader.Open(new Uri($"avares://DemoEx/Assets/Images/{name}"));
+                return new Bitmap(s);
+            }
+            catch
+            {
+                using var s = AssetLoader.Open(new Uri("avares://DemoEx/Assets/picture.png"));
+                return new Bitmap(s);
             }
         }
     }

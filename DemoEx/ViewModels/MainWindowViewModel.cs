@@ -6,8 +6,8 @@ using DemoEx.Models;
 using DemoEx.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -26,7 +26,7 @@ namespace DemoEx.ViewModels
             Page = new ProductPage();
         }
 
-        //авторизация
+        // авторизация
         [ObservableProperty]
         string currentUser = "Гость";
 
@@ -38,7 +38,6 @@ namespace DemoEx.ViewModels
             Login = string.Empty;
             Page = new LoginPage();
         }
-
 
         [ObservableProperty]
         string login = string.Empty;
@@ -54,8 +53,8 @@ namespace DemoEx.ViewModels
         {
             var current = Users.FirstOrDefault(u => u.Login == Login);
 
-
-            if (Login!= null && current != null) {
+            if (!string.IsNullOrEmpty(Login) && current != null)
+            {
                 IsAuth = true;
                 CurrentUser = current.Name;
                 Page = new ProductPage();
@@ -67,7 +66,6 @@ namespace DemoEx.ViewModels
             }
         }
 
-
         [ObservableProperty]
         Product currentProduct;
 
@@ -77,20 +75,32 @@ namespace DemoEx.ViewModels
             CurrentProduct = product;
             OrderWindow orderWindow = new OrderWindow(this);
             orderWindow.Show();
-
         }
 
+        // данные с бд
 
+        [ObservableProperty]
+        List<User> users = db.Users.ToList();
+
+        static ObservableCollection<Product> products = new(db.Products
+            .Include(x => x.Category)
+            .Include(x => x.Manufacture)
+            .Include(x => x.DetailOrders).ThenInclude(x => x.Order)
+            .Include(x => x.Stoks)
+            .ToList());
+
+        [ObservableProperty]
+        ObservableCollection<Product> sortProducts = new(products);
+
+        [ObservableProperty]
+        List<Stok> stoks = db.Stoks.Include(x => x.Product).ToList();
 
         //сортировка, фильтрация и поиск
 
-
-        [ObservableProperty]
         static ObservableCollection<Category> categories = new(db.Categories.ToList());
 
-
-        [ObservableProperty]
-        public ObservableCollection<string> filterOption = new(new[] { "Все категории" }.Concat(categories.Select(p => p.Name).Distinct().ToList()));
+        public ObservableCollection<string> FilterOption { get; } = new(
+            new[] { "Все категории" }.Concat(categories.Select(p => p.Name).Distinct().ToList()));
 
         public ObservableCollection<string> SortOption { get; } = new()
         {
@@ -102,108 +112,40 @@ namespace DemoEx.ViewModels
         [ObservableProperty]
         string selectedFilter = "Все категории";
 
-
         [ObservableProperty]
         string selectedSort = "По умолчанию";
 
         [ObservableProperty]
         string selectedSearch = "";
 
-        void Filter(string value)
+        void ApplyAll()
         {
+            IEnumerable<Product> query = products;
 
-            if (value != null && value != "Все категории")
+            if (!string.IsNullOrEmpty(SelectedFilter) && SelectedFilter != "Все категории")
+                query = query.Where(p => p.Category.Name == SelectedFilter);
+
+            if (!string.IsNullOrWhiteSpace(SelectedSearch))
             {
-                SortProducts = new(products.Where(p => p.Category.Name == value).ToList());
-               
+                var s = SelectedSearch;
+                query = query.Where(p =>
+                    (p.Name?.Contains(s, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (p.Description?.Contains(s, StringComparison.OrdinalIgnoreCase) ?? false));
             }
-            else if (value == "Все категории")
+
+            query = SelectedSort switch
             {
-                SortProducts = new(products);
-            }
-            if (SelectedSort != "По умолчанию")
-            {
-                Sort(SelectedSort);
-            }
-            if (SelectedSearch != null && SelectedSearch != "")
-            {
-                Search(SelectedSearch);
-            }
+                "Цена возрастание" => query.OrderBy(p => p.DiscountPrice),
+                "Цена убывание" => query.OrderByDescending(p => p.DiscountPrice),
+                _ => query
+            };
+
+            SortProducts = new ObservableCollection<Product>(query);
         }
 
-        void Sort(string value)
-        {
-            switch (value)
-            {
-                case "По умолчанию":
-                    SortProducts = products;
-                    Filter(SelectedFilter);
-                    break;
-                case "Цена возрастание":
-                    SortProducts = new(SortProducts.OrderBy(p => p.DiscountPrice));
-                    break;
-                case "Цена убывание":
-                    SortProducts = new(SortProducts.OrderByDescending(p => p.DiscountPrice));
-                    break;
-            }
+        partial void OnSelectedFilterChanged(string value) => ApplyAll();
+        partial void OnSelectedSortChanged(string value) => ApplyAll();
+        partial void OnSelectedSearchChanged(string value) => ApplyAll();
 
-            if (SelectedSearch != null && SelectedSearch != "")
-            {
-                Search(SelectedSearch);
-            }
-        }
-
-        void Search(string value)
-        {
-
-            if (value == null || value == "")
-            {
-                Filter(SelectedFilter);
-            }
-            else {
-                SortProducts = new(SortProducts.Where(p => (p.Name != null && p.Name.Contains(value, System.StringComparison.OrdinalIgnoreCase)) || (p.Description != null && p.Description.Contains(value, System.StringComparison.OrdinalIgnoreCase))));
-            }
-        }
-
-        partial void OnSelectedFilterChanged(string value)
-        {
-            Filter(value);
-        }
-
-        partial void OnSelectedSortChanged(string value)
-        {
-            Sort(value);
-        }
-
-        partial void OnSelectedSearchChanged(string value) { 
-            Search(value);
-        }
-
-        [ObservableProperty]
-        List<User> users = db.Users.ToList();
-
-        [ObservableProperty]
-        static ObservableCollection<Product> products = new(db.Products.Include(x => x.Category)
-                .Include(x => x.Manufacture)
-            .Include(x => x.DetailOrders).ThenInclude(x => x.Order)
-                .Include(x => x.Stoks)
-            .Include(x=>x.Category)
-            .ToList());
-
-        [ObservableProperty]
-        ObservableCollection<Product> sortProducts = new(products);
-        [ObservableProperty]
-        ObservableCollection<Product> filterProducts = new(products);
-
-        //db.Products.Include(x => x.Category).Include(x => x.Manufacture).ToList();
-
-        [ObservableProperty]
-        List<Stok> stoks = db.Stoks.Include(x => x.Product).ToList();
-
-        [RelayCommand]
-        void Enter()
-        {
-            
-        }
     }
 }
