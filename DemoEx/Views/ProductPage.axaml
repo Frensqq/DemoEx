@@ -51,6 +51,10 @@
 								   FontSize="16"
 								   FontWeight="400"
 								   VerticalAlignment="Center"/>
+							<Button IsVisible="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).IsAuth}"
+									Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).toOrderPageCommand}" CommandParameter="{Binding}" Content="Заказать"/>
+								
+							
 						</StackPanel>
 								  
 

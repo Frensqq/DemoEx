@@ -33,13 +33,18 @@ namespace DemoEx.ViewModels
         [RelayCommand]
         void ToLogPage()
         {
+            IsAuth = false;
             CurrentUser = "Гость";
+            Login = string.Empty;
             Page = new LoginPage();
         }
 
 
         [ObservableProperty]
         string login = string.Empty;
+
+        [ObservableProperty]
+        bool isAuth = false;
 
         [ObservableProperty]
         string loginError = string.Empty;
@@ -51,8 +56,10 @@ namespace DemoEx.ViewModels
 
 
             if (Login!= null && current != null) {
+                IsAuth = true;
                 CurrentUser = current.Name;
                 Page = new ProductPage();
+                LoginError = string.Empty;
             }
             else
             {
@@ -61,6 +68,17 @@ namespace DemoEx.ViewModels
         }
 
 
+        [ObservableProperty]
+        Product currentProduct;
+
+        [RelayCommand]
+        void toOrderPage(Product product)
+        {
+            CurrentProduct = product;
+            OrderWindow orderWindow = new OrderWindow(this);
+            orderWindow.Show();
+
+        }
 
 
 
