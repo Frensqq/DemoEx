@@ -6,13 +6,14 @@
         xmlns:vm="using:DemoEx.ViewModels"
         x:DataType="vm:MainWindowViewModel"
         x:Class="DemoEx.Views.OrderWindow"
-        Width="700" Height="600"
+        Width="700" Height="700"
         CanResize="False"
         WindowStartupLocation="CenterOwner"
         Title="Оформление заказа">
 
     <Grid RowDefinitions="Auto,*,Auto" Background="#F7F7F7">
 
+        <!-- Шапка -->
         <Border Grid.Row="0" Background="#3A3438" Padding="20,14">
             <TextBlock Text="Оформление заказа"
                        Foreground="White"
@@ -20,18 +21,48 @@
                        FontWeight="700"/>
         </Border>
 
+        <!-- Контент -->
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*" Margin="24" ColumnSpacing="24">
 
             <Border Grid.Column="0"
-                    Background="White"
-                    BorderBrush="#E0E0E0"
-                    BorderThickness="1"
-                    Padding="12"
-                    VerticalAlignment="Top">
-                <Image Source="{Binding CurrentProduct.ImageBitmap}"
-                       Width="200" Height="200"
-                       Stretch="Uniform"/>
-            </Border>
+        Background="White"
+        BorderBrush="#E0E0E0"
+        BorderThickness="1"
+        Padding="12"
+        VerticalAlignment="Top">
+    <StackPanel Spacing="12">
+
+        <Image Source="{Binding CurrentProduct.ImageBitmap}"
+               Width="200" Height="200"
+               Stretch="Uniform"/>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Размер:" FontWeight="600"/>
+            <ComboBox x:Name="SizeBox"
+                      ItemsSource="{Binding CurrentProduct.Stoks}"
+                      HorizontalAlignment="Stretch"
+                      SelectionChanged="OnSizeChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Size.Name, StringFormat=Размер {0}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Количество:" FontWeight="600"/>
+            <NumericUpDown x:Name="CountBox"
+                           Value="1"
+                           Minimum="1"
+                           Maximum="1"
+                           Increment="1"
+                           FormatString="0"
+                           HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+    </StackPanel>
+</Border>
 
             <StackPanel Grid.Column="1" Spacing="10">
 
@@ -53,26 +84,45 @@
                 <Rectangle Height="1" Fill="#E0E0E0" Margin="0,6"/>
 
                 <TextBlock Text="{Binding CurrentProduct.Category.Name, StringFormat=Категория: {0}}"/>
-                <TextBlock Text="{Binding CurrentProduct.Count, StringFormat=В наличии: {0} шт.}"/>
                 <TextBlock Text="{Binding CurrentProduct.Structure, StringFormat=Состав: {0}}"
                            TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding CurrentProduct.Description, StringFormat=Описание: {0}}"
+                           TextWrapping="Wrap"/>
 
-                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,12,0,0">
-                    <TextBlock Text="Количество:" VerticalAlignment="Center" FontWeight="600"/>
-                    <NumericUpDown Value="1" Minimum="1"
-                                   Maximum="{Binding CurrentProduct.Count}"
-                                   Width="120"/>
-                </StackPanel>
+                <TextBlock Text="Доступные размеры:"
+                           FontWeight="600"
+                           Margin="0,10,0,0"/>
+
+                <ItemsControl ItemsSource="{Binding CurrentProduct.Stoks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="White"
+                                    BorderBrush="#E0E0E0"
+                                    BorderThickness="1"
+                                    Padding="8,4"
+                                    Margin="0,2">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding Size.Name, StringFormat=Размер: {0}}"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Count, StringFormat=В наличии: {0} шт.}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
             </StackPanel>
         </Grid>
 
+        <!-- Кнопки -->
         <Border Grid.Row="2" Background="#EDE7DE" Padding="24,14">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
                 <Button Content="Отмена"
+                        Click="OnCancelClick"
                         Padding="24,10"
                         CornerRadius="6"/>
-                <Button Content="Оформить заказ"
+                <Button Content="Добавить в заказ"
                         Background="#E85A3A"
                         Foreground="White"
                         Padding="24,10"

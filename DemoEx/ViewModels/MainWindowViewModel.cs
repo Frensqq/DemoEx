@@ -73,8 +73,12 @@ namespace DemoEx.ViewModels
         void toOrderPage(Product product)
         {
             CurrentProduct = product;
+
+            var owner = (Avalonia.Application.Current?.ApplicationLifetime
+                 as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)
+                 ?.MainWindow;
             OrderWindow orderWindow = new OrderWindow(this);
-            orderWindow.Show();
+            orderWindow.ShowDialog(owner);
         }
 
         // данные с бд
@@ -86,7 +90,7 @@ namespace DemoEx.ViewModels
             .Include(x => x.Category)
             .Include(x => x.Manufacture)
             .Include(x => x.DetailOrders).ThenInclude(x => x.Order)
-            .Include(x => x.Stoks)
+            .Include(x => x.Stoks).ThenInclude(s => s.Size)
             .ToList());
 
         [ObservableProperty]
