@@ -4194,23 +4194,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ly4do\\.nuget\\packages\\": {},
+    "C:\\Users\\Frens__\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ly4do\\OneDrive\\Desktop\\0101\\DemoEx\\DemoEx\\DemoEx.csproj",
+      "projectUniqueName": "W:\\Colledge\\0101\\DemoEx\\DemoEx\\DemoEx.csproj",
       "projectName": "DemoEx",
-      "projectPath": "C:\\Users\\ly4do\\OneDrive\\Desktop\\0101\\DemoEx\\DemoEx\\DemoEx.csproj",
-      "packagesPath": "C:\\Users\\ly4do\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ly4do\\OneDrive\\Desktop\\0101\\DemoEx\\DemoEx\\obj\\",
+      "projectPath": "W:\\Colledge\\0101\\DemoEx\\DemoEx\\DemoEx.csproj",
+      "packagesPath": "C:\\Users\\Frens__\\.nuget\\packages\\",
+      "outputPath": "W:\\Colledge\\0101\\DemoEx\\DemoEx\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ly4do\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Frens__\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4219,6 +4219,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://nuget.pkg.github.com/Frensqq/index.json": {}
       },
@@ -4238,7 +4239,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -4299,7 +4300,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.318/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -10,10 +10,10 @@
 
     
 					<Grid Grid.ColumnDefinitions="Auto,*,Auto" Margin="10" 
-						  Background="{Binding CurrentProduct.Count, Converter={StaticResource ColorConverter}}" >
+						  Background="{Binding CurrentProduct.CountColor}" >
 
 						<Image Grid.Column="0"
-							   Source="{Binding CurrentProduct.Image, Converter={StaticResource ImageConverter}}"
+							   Source="{Binding CurrentProduct.ImageBitmap}"
 							   Width="120"
 							   Height="120"
 							   Stretch="Uniform"

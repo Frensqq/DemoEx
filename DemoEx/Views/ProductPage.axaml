@@ -33,10 +33,10 @@
 			<ItemsControl.ItemTemplate >
 				<DataTemplate >
 					<Grid Grid.ColumnDefinitions="Auto,*,Auto" Margin="10" 
-						  Background="{Binding Count, Converter={StaticResource ColorConverter}}" >
+						  Background="{Binding CountColor}" >
 
 						<Image Grid.Column="0"
-							   Source="{Binding Image, Converter={StaticResource ImageConverter}}"
+							   Source="{Binding ImageBitmap}"
 							   Width="120"
 							   Height="120"
 							   Stretch="Uniform"
