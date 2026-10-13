@@ -107,6 +107,10 @@ namespace DemoEx.ViewModels
             {
                 Sort(SelectedSort);
             }
+            if (SelectedSearch != null && SelectedSearch != "")
+            {
+                Search(SelectedSearch);
+            }
         }
 
         void Sort(string value)
@@ -124,12 +128,17 @@ namespace DemoEx.ViewModels
                     SortProducts = new(SortProducts.OrderByDescending(p => p.DiscountPrice));
                     break;
             }
+
+            if (SelectedSearch != null && SelectedSearch != "")
+            {
+                Search(SelectedSearch);
+            }
         }
 
         void Search(string value)
         {
 
-            if (value == null)
+            if (value == null || value == "")
             {
                 Filter(SelectedFilter);
             }

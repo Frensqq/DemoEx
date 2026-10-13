@@ -21,6 +21,10 @@
 				<TextBlock Margin="10,0" VerticalAlignment="Center">Фильтры - </TextBlock>
 				<ComboBox Margin="10,0" ItemsSource="{Binding FilterOption}"  SelectedItem="{Binding SelectedFilter}"  Width="200"></ComboBox>
 
+			</StackPanel><StackPanel Orientation="Horizontal" >
+				<TextBlock Margin="10,0" VerticalAlignment="Center">Поиск - </TextBlock>
+				<TextBox  Text="{Binding SelectedSearch}" Width="300" Watermark="Название или описание"></TextBox>
+
 			</StackPanel>
 
 		</StackPanel>
