@@ -11,6 +11,13 @@
         WindowStartupLocation="CenterOwner"
         Title="Оформление заказа">
 
+    <Window.Styles>
+        <Style Selector="NumericUpDown.arrowsOnly /template/ TextBox">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+    </Window.Styles>
+
     <Grid RowDefinitions="Auto,*,Auto" Background="#F7F7F7">
 
         <!-- Шапка -->
@@ -38,7 +45,7 @@
 
         <StackPanel Spacing="4">
             <TextBlock Text="Размер:" FontWeight="600"/>
-            <ComboBox x:Name="SizeBox"
+            <ComboBox x:Name="SizeBox" 
                       ItemsSource="{Binding CurrentProduct.Stoks}"
                       HorizontalAlignment="Stretch"
                       SelectionChanged="OnSizeChanged">
@@ -52,8 +59,9 @@
 
         <StackPanel Spacing="4">
             <TextBlock Text="Количество:" FontWeight="600"/>
-            <NumericUpDown x:Name="CountBox"
-                           Value="1"
+            <NumericUpDown x:Name="CountBox" 
+                           Classes="arrowsOnly"
+                           Value="{Binding CurrentCount}"
                            Minimum="1"
                            Maximum="1"
                            Increment="1"

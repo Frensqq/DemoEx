@@ -17,23 +17,75 @@
 
         <!-- Боковая панель -->
         <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-            <StackPanel Background="#2E2A2E">
-                <TextBlock TextAlignment="Center"
-                           FontSize="22"
-                           Foreground="White"
-                           FontWeight="600"
-                           Margin="0,24"
-                           Text="{Binding CurrentUser}"/>
+            <Grid RowDefinitions="Auto,*,Auto" Background="#2E2A2E">
 
-                <Button HorizontalAlignment="Center"
-                        Content="Вход"
+                <!-- Верх: пользователь + вход -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock TextAlignment="Center"
+                               FontSize="18"
+                               Foreground="White"
+                               FontWeight="600"
+                               Margin="0,24,0,12"
+                               TextWrapping="Wrap"
+                               Text="{Binding CurrentUserName}"/>
+
+                    <Button HorizontalAlignment="Center"
+                            Content="Вход"
+                            Background="#E85A3A"
+                            Foreground="White"
+                            Padding="24,10"
+                            CornerRadius="6"
+                            FontWeight="600"
+                            Command="{Binding ToLogPageCommand}"/>
+                </StackPanel>
+
+                <!-- Середина: список текущего заказа -->
+                <ScrollViewer Grid.Row="1" Margin="0,16,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Текущий заказ"
+                                   Foreground="White"
+                                   FontWeight="600"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,8"/>
+
+                        <ItemsControl ItemsSource="{Binding CurrentOrder.DetailOrders}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#3A3438"
+                                            Margin="6,3"
+                                            Padding="6"
+                                            CornerRadius="4">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Product.Name}"
+                                                       Foreground="White"
+                                                       FontWeight="600"
+                                                       TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Size.Name, StringFormat='Размер: {0}'}"
+                                                       Foreground="#CFC7C7"
+                                                       FontSize="12"/>
+                                            <TextBlock Text="{Binding Count, StringFormat='Кол-во: {0}'}"
+                                                       Foreground="#CFC7C7"
+                                                       FontSize="12"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Низ: кнопка оформления -->
+                <Button Grid.Row="2"
+                        Content="Оформить заказ"
+                        HorizontalAlignment="Stretch"
+                        Margin="8"
+                        Padding="8"
                         Background="#E85A3A"
                         Foreground="White"
-                        Padding="24,10"
                         CornerRadius="6"
-                        FontWeight="600"
-                        Command="{Binding ToLogPageCommand}"/>
-            </StackPanel>
+                        Command="{Binding CreateOrderCommand}"
+                        IsVisible="{Binding CurrentOrder, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+            </Grid>
         </Grid>
 
         <!-- Шапка -->

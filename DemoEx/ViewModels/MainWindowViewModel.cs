@@ -28,14 +28,17 @@ namespace DemoEx.ViewModels
 
         // авторизация
         [ObservableProperty]
-        string currentUser = "Гость";
+        string currentUserName = "Гость";
+        [ObservableProperty]
+        User currentUser = null;
 
         [RelayCommand]
         void ToLogPage()
         {
             IsAuth = false;
-            CurrentUser = "Гость";
+            CurrentUserName = "Гость";
             Currentlogin = string.Empty;
+            CurrentUser = null;
             Page = new LoginPage();
         }
 
@@ -47,9 +50,7 @@ namespace DemoEx.ViewModels
 
         [ObservableProperty]
         string loginError = string.Empty;
-
-        [ObservableProperty]
-        string login = string.Empty;
+        
 
         [RelayCommand]
         void LoginIn()
@@ -59,7 +60,8 @@ namespace DemoEx.ViewModels
             if (!string.IsNullOrEmpty(Currentlogin) && current != null)
             {
                 IsAuth = true;
-                CurrentUser = current.Name;
+                CurrentUserName = current.Name + "\n" + current.Surname + "\n" + current.Patronimyc;
+                CurrentUser =current ;
                 Page = new ProductPage();
                 LoginError = string.Empty;
             }
@@ -69,16 +71,30 @@ namespace DemoEx.ViewModels
             }
         }
 
+
+
+        //Заказ
+
         [ObservableProperty]
         Product currentProduct;
 
-
         OrderWindow orderWindow;
+
+        [ObservableProperty]
+        Order currentOrder;
+
+        [ObservableProperty]
+        Stok currentStock = null;
 
         [RelayCommand]
         void toOrderPage(Product product)
         {
             CurrentProduct = product;
+
+            CurrentOrder = new Order() { Date = DateOnly.FromDateTime(DateTime.Now), Login = currentlogin };
+
+            CurrentStock = product.Stoks?.FirstOrDefault();
+            CurrentCount = 1;
 
             var owner = (Avalonia.Application.Current?.ApplicationLifetime
                  as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)
@@ -87,23 +103,40 @@ namespace DemoEx.ViewModels
             orderWindow.ShowDialog(owner);
         }
 
-        //Заказ
+        
 
-        [ObservableProperty]
-        Order currnetOrder = new Order() { Date = DateOnly.FromDateTime(DateTime.Now), Login = currentlogin };
-
-        [ObservableProperty]
-        Stok currentStock = null;
+        
 
         [ObservableProperty]
         int currentCount;
 
         [RelayCommand]
-        void AddToOrderCommand()
+        void AddToOrder()
         {
-
+            if(CurrentCount!= null && (CurrentStock.Count - CurrentCount) >= 0)
+            {
+                CurrentOrder.DetailOrders.Add(new DetailOrder { Count = CurrentCount, ProductId = CurrentStock.ProductId, SizeId = CurrentStock.SizeId });
+                CurrentStock.Count -= CurrentCount;
+                orderWindow.Close();
+            }
             
+        }
 
+        [RelayCommand]
+        void CreateOrder()
+        {
+            if (CurrentOrder == null || CurrentOrder.DetailOrders.Count == 0) return;
+
+            db.Orders.Add(CurrentOrder);
+            db.SaveChanges();
+
+            orderWindow?.Close();
+
+            // сброс
+            CurrentOrder = null;
+            CurrentProduct = null;
+            CurrentStock = null;
+            CurrentCount = 1;
         }
 
 
