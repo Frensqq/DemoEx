@@ -48,6 +48,9 @@ namespace DemoEx.ViewModels
         [ObservableProperty]
         string loginError = string.Empty;
 
+        [ObservableProperty]
+        string login = string.Empty;
+
         [RelayCommand]
         void LoginIn()
         {
@@ -96,14 +99,17 @@ namespace DemoEx.ViewModels
         int currentCount;
 
         [RelayCommand]
-        void AddToOrder()
+        void AddToOrderCommand()
         {
-            CurrentOrder.DetailOrders.Add(new DetailOrder { Count = currentCount, SizeId = CurrentStock.SizeId, ProductId = CurrentStock.ProductId});
-            CurrentStock.Count -= currentCount;
-            orderWindow.Close();
+
+            
+
         }
 
-        
+
+
+
+
 
         // данные с бд
 

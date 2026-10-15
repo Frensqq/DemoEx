@@ -32,7 +32,7 @@
                            FontWeight="600"
                            Foreground="#3A3438"/>
 
-                <TextBox Text="{Binding Login}"
+                <TextBox Text="{Binding Currentlogin}"
                          Watermark="Введите логин"/>
 
                 <TextBlock Text="{Binding LoginError}"
