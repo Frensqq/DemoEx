@@ -35,12 +35,12 @@ namespace DemoEx.ViewModels
         {
             IsAuth = false;
             CurrentUser = "Гость";
-            Login = string.Empty;
+            Currentlogin = string.Empty;
             Page = new LoginPage();
         }
 
         [ObservableProperty]
-        string login = string.Empty;
+        static string currentlogin = string.Empty;
 
         [ObservableProperty]
         bool isAuth = false;
@@ -51,9 +51,9 @@ namespace DemoEx.ViewModels
         [RelayCommand]
         void LoginIn()
         {
-            var current = Users.FirstOrDefault(u => u.Login == Login);
+            var current = Users.FirstOrDefault(u => u.Login == Currentlogin);
 
-            if (!string.IsNullOrEmpty(Login) && current != null)
+            if (!string.IsNullOrEmpty(Currentlogin) && current != null)
             {
                 IsAuth = true;
                 CurrentUser = current.Name;
@@ -69,6 +69,9 @@ namespace DemoEx.ViewModels
         [ObservableProperty]
         Product currentProduct;
 
+
+        OrderWindow orderWindow;
+
         [RelayCommand]
         void toOrderPage(Product product)
         {
@@ -77,9 +80,30 @@ namespace DemoEx.ViewModels
             var owner = (Avalonia.Application.Current?.ApplicationLifetime
                  as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)
                  ?.MainWindow;
-            OrderWindow orderWindow = new OrderWindow(this);
+            orderWindow = new OrderWindow(this);
             orderWindow.ShowDialog(owner);
         }
+
+        //Заказ
+
+        [ObservableProperty]
+        Order currnetOrder = new Order() { Date = DateOnly.FromDateTime(DateTime.Now), Login = currentlogin };
+
+        [ObservableProperty]
+        Stok currentStock = null;
+
+        [ObservableProperty]
+        int currentCount;
+
+        [RelayCommand]
+        void AddToOrder()
+        {
+            CurrentOrder.DetailOrders.Add(new DetailOrder { Count = currentCount, SizeId = CurrentStock.SizeId, ProductId = CurrentStock.ProductId});
+            CurrentStock.Count -= currentCount;
+            orderWindow.Close();
+        }
+
+        
 
         // данные с бд
 

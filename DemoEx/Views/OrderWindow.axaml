@@ -123,6 +123,7 @@
                         Padding="24,10"
                         CornerRadius="6"/>
                 <Button Content="Добавить в заказ"
+                        Command="{Binding AddToOrderCommand}"
                         Background="#E85A3A"
                         Foreground="White"
                         Padding="24,10"
