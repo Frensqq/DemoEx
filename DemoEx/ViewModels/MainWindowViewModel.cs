@@ -111,23 +111,36 @@ namespace DemoEx.ViewModels
         [ObservableProperty]
         int currentCount;
 
+        [ObservableProperty]
+        string orderError = string.Empty;
+
         [RelayCommand]
         void AddToOrder()
         {
-            if(CurrentCount!= null && (CurrentStock.Count - CurrentCount) >= 0)
+            OrderError = string.Empty;
+
+            if (CurrentCount <= 0) { OrderError = "Количество должно быть больше 0"; return; }
+            if (CurrentCount > CurrentStock.Count)
             {
-                CurrentOrder.DetailOrders.Add(new DetailOrder {
-                    Count = CurrentCount,
-                    ProductId = CurrentStock.ProductId, 
-                    SizeId = CurrentStock.SizeId,
-                    Product = CurrentProduct,      
-                    Size = CurrentStock.Size
-                });
-                CurrentStock.Count -= CurrentCount;
-                orderWindow.Close();
+                OrderError = $"На складе только {CurrentStock.Count} шт.";
+                return;
             }
 
+            CurrentOrder.DetailOrders.Add(new DetailOrder
+            {
+                Count = CurrentCount,
+                ProductId = CurrentStock.ProductId,
+                SizeId = CurrentStock.SizeId,
+                Product = CurrentProduct,
+                Size = CurrentStock.Size
+            });
+
+            CurrentStock.Count -= CurrentCount;
+
+            orderWindow?.Close();
+            Page = new ProductPage();
         }
+
 
         [RelayCommand]
         void CreateOrder()
@@ -137,7 +150,7 @@ namespace DemoEx.ViewModels
             db.Orders.Add(CurrentOrder);
             db.SaveChanges();
 
-            orderWindow?.Close();
+            Page = new ProductPage();
 
             // сброс
             CurrentOrder = null;

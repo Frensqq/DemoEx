@@ -45,28 +45,28 @@
 
         <StackPanel Spacing="4">
             <TextBlock Text="Размер:" FontWeight="600"/>
-            <ComboBox x:Name="SizeBox" 
-                      ItemsSource="{Binding CurrentProduct.Stoks}"
-                      HorizontalAlignment="Stretch"
-                      SelectionChanged="OnSizeChanged">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Size.Name, StringFormat=Размер {0}}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+        <ComboBox ItemsSource="{Binding CurrentProduct.Stoks}"
+                  SelectedItem="{Binding CurrentStock, Mode=TwoWay}"
+                  HorizontalAlignment="Stretch">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Size.Name, StringFormat=Размер {0}}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox> 
         </StackPanel>
+
+        <TextBlock Text="{Binding OrderError}" Foreground="Red" TextWrapping="Wrap"/>
 
         <StackPanel Spacing="4">
             <TextBlock Text="Количество:" FontWeight="600"/>
-            <NumericUpDown x:Name="CountBox" 
-                           Classes="arrowsOnly"
-                           Value="{Binding CurrentCount}"
-                           Minimum="1"
-                           Maximum="1"
-                           Increment="1"
-                           FormatString="0"
-                           HorizontalAlignment="Stretch"/>
+                  <NumericUpDown Classes="arrowsOnly"
+                       Value="{Binding CurrentCount, Mode=TwoWay}"
+                       Minimum="0"
+                       Maximum="{Binding CurrentStock.Count}"
+                       Increment="1"
+                       FormatString="0"
+                       HorizontalAlignment="Stretch"/>  
         </StackPanel>
 
     </StackPanel>
