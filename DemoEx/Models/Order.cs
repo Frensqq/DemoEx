@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DemoEx.Models;
 
@@ -11,7 +12,7 @@ public partial class Order
 
     public string Login { get; set; } = null!;
 
-    public virtual ICollection<DetailOrder> DetailOrders { get; set; } = new List<DetailOrder>();
+    public virtual ObservableCollection<DetailOrder> DetailOrders { get; set; } = new();
 
     public virtual User LoginNavigation { get; set; } = null!;
 

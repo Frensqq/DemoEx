@@ -8,6 +8,10 @@
 			 xmlns:conv="clr-namespace:DemoEx.Resources"
 			 x:DataType="vm:MainWindowViewModel"
 			 >
+
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
 	<!--xmlns:conv="using:Demoex"-->
 	<Grid Grid.RowDefinitions="Auto,*">
 		<Border Grid.Row="0" Background="#EEF1F4" Padding="12">

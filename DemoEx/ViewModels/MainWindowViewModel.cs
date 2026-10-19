@@ -64,6 +64,7 @@ namespace DemoEx.ViewModels
                 CurrentUser =current ;
                 Page = new ProductPage();
                 LoginError = string.Empty;
+                CurrentOrder = new Order() { Date = DateOnly.FromDateTime(DateTime.Now), Login = currentlogin };
             }
             else
             {
@@ -91,8 +92,6 @@ namespace DemoEx.ViewModels
         {
             CurrentProduct = product;
 
-            CurrentOrder = new Order() { Date = DateOnly.FromDateTime(DateTime.Now), Login = currentlogin };
-
             CurrentStock = product.Stoks?.FirstOrDefault();
             CurrentCount = 1;
 
@@ -101,6 +100,8 @@ namespace DemoEx.ViewModels
                  ?.MainWindow;
             orderWindow = new OrderWindow(this);
             orderWindow.ShowDialog(owner);
+
+            
         }
 
         
@@ -115,11 +116,17 @@ namespace DemoEx.ViewModels
         {
             if(CurrentCount!= null && (CurrentStock.Count - CurrentCount) >= 0)
             {
-                CurrentOrder.DetailOrders.Add(new DetailOrder { Count = CurrentCount, ProductId = CurrentStock.ProductId, SizeId = CurrentStock.SizeId });
+                CurrentOrder.DetailOrders.Add(new DetailOrder {
+                    Count = CurrentCount,
+                    ProductId = CurrentStock.ProductId, 
+                    SizeId = CurrentStock.SizeId,
+                    Product = CurrentProduct,      
+                    Size = CurrentStock.Size
+                });
                 CurrentStock.Count -= CurrentCount;
                 orderWindow.Close();
             }
-            
+
         }
 
         [RelayCommand]
