@@ -76,16 +76,31 @@
                 </ScrollViewer>
 
                 <!-- Низ: кнопка оформления -->
-                <Button Grid.Row="2"
-                        Content="Оформить заказ"
-                        HorizontalAlignment="Stretch"
-                        Margin="8"
-                        Padding="8"
-                        Background="#E85A3A"
-                        Foreground="White"
-                        CornerRadius="6"
-                        Command="{Binding CreateOrderCommand}"
-                        IsVisible="{Binding CurrentOrder, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                <StackPanel Grid.Row="2" Orientation="Vertical" >
+
+                    <Button
+                            Content="Оформить заказ"
+                            HorizontalAlignment="Stretch"
+                            Margin="8"
+                            Padding="8"
+                            Background="#E85A3A"
+                            Foreground="White"
+                            CornerRadius="6"
+                            Command="{Binding CreateOrderCommand}"
+                            IsVisible="{Binding CurrentOrder, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+
+                    <Button
+                            Content="{Binding ListOrderButtonName}"
+                            HorizontalAlignment="Stretch"
+                            Margin="8"
+                            Padding="8"
+                            Background="#E85A3A"
+                            IsVisible="{Binding ListOrderButtonVisible}"
+                            Foreground="White"
+                            CornerRadius="6"
+                            Command="{Binding ListOrderToMainWindowCommand}"
+                            />
+                </StackPanel>
             </Grid>
         </Grid>
 

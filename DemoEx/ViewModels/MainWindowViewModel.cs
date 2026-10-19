@@ -26,9 +26,44 @@ namespace DemoEx.ViewModels
             Page = new ProductPage();
         }
 
+
+
+        //лист заказов
+
+
+
+        [ObservableProperty]
+        string listOrderButtonName;
+
+        [ObservableProperty]
+        bool listOrderButtonVisible = false;
+
+
+
+
+        [RelayCommand]
+        void ListOrderToMainWindow()
+        {
+          
+            if (Page is ProductPage)
+            {
+                ListOrderButtonName = "На главную";
+                Page = new OrderListPage();
+            }
+            else
+            {
+                ListOrderButtonName = "К заказам";
+                Page = new ProductPage();
+            }
+        }
+        
+
         // авторизация
+
         [ObservableProperty]
         string currentUserName = "Гость";
+        [ObservableProperty]
+        static string currentlogin = string.Empty;
         [ObservableProperty]
         User currentUser = null;
 
@@ -38,12 +73,13 @@ namespace DemoEx.ViewModels
             IsAuth = false;
             CurrentUserName = "Гость";
             Currentlogin = string.Empty;
+            ListOrderButtonVisible = false;
+            CurrentOrder = null;
             CurrentUser = null;
             Page = new LoginPage();
         }
 
-        [ObservableProperty]
-        static string currentlogin = string.Empty;
+
 
         [ObservableProperty]
         bool isAuth = false;
@@ -62,7 +98,19 @@ namespace DemoEx.ViewModels
                 IsAuth = true;
                 CurrentUserName = current.Name + "\n" + current.Surname + "\n" + current.Patronimyc;
                 CurrentUser =current ;
-                Page = new ProductPage();
+
+                if (current.IdRole < 3)
+                {
+                    ListOrderButtonVisible = true;
+                    ListOrderButtonName = "На главную";
+                    Page = new OrderListPage();
+                }
+                else
+                {
+                    ListOrderButtonName = "К заказам";
+                    Page = new ProductPage();
+                }
+                
                 LoginError = string.Empty;
                 CurrentOrder = new Order() { Date = DateOnly.FromDateTime(DateTime.Now), Login = currentlogin };
             }
