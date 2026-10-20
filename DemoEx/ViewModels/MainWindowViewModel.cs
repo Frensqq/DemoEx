@@ -38,6 +38,46 @@ namespace DemoEx.ViewModels
         [ObservableProperty]
         bool listOrderButtonVisible = false;
 
+        [ObservableProperty]
+        ObservableCollection<Order> orderList = new(db.Orders
+            .Include(x => x.LoginNavigation)
+            .Include(x => x.DetailOrders)
+                .ThenInclude(x => x.Size)
+            .Include(x => x.DetailOrders)
+                .ThenInclude(x => x.Product)
+
+            .ToList());
+
+        void DeleteOrder(object obj)
+        {
+
+            if(obj is Order order)
+            {
+                db.Orders.Remove(order);
+            }
+            if(obj is DetailOrder detailOrders)
+            {
+                db.DetailOrders.Remove(detailOrders);
+            }
+            db.SaveChanges();
+            updateOrderList();
+            Page = new OrderListPage();
+
+        }
+
+
+        void updateOrderList()
+        {
+            OrderList = new(db.Orders
+            .Include(x => x.LoginNavigation)
+            .Include(x => x.DetailOrders)
+                .ThenInclude(x => x.Size)
+            .Include(x => x.DetailOrders)
+                .ThenInclude(x => x.Product)
+
+            .ToList());
+
+        }
 
 
 
@@ -48,6 +88,7 @@ namespace DemoEx.ViewModels
             if (Page is ProductPage)
             {
                 ListOrderButtonName = "На главную";
+                updateOrderList();
                 Page = new OrderListPage();
             }
             else
@@ -101,13 +142,13 @@ namespace DemoEx.ViewModels
 
                 if (current.IdRole < 3)
                 {
+                    updateOrderList();
                     ListOrderButtonVisible = true;
                     ListOrderButtonName = "На главную";
                     Page = new OrderListPage();
                 }
                 else
                 {
-                    ListOrderButtonName = "К заказам";
                     Page = new ProductPage();
                 }
                 

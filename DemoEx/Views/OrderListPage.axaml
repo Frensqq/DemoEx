@@ -8,5 +8,76 @@
 			 xmlns:conv="clr-namespace:DemoEx.Resources"
 			 x:DataType="vm:MainWindowViewModel"
              >
+
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0" Background="#3A3438" Padding="20,14">
+            <TextBlock Text="Список заказов"
+                       Foreground="White"
+                       FontSize="20"
+                       FontWeight="700"/>
+        </Border>
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+		<ItemsControl ItemsSource="{Binding OrderList}" Margin="10">
+			<ItemsControl.ItemTemplate >
+				<DataTemplate>
+                    <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Orientation="Vertical" Margin="10" Grid.Column="0">
+                        
+                    <StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding Id, StringFormat=  id: - {0} }"/>
+						<TextBlock Text="{Binding Date, StringFormat=  date: - {0} }" Margin="10,0"/>
+                    </StackPanel>                       						
+                        <TextBlock Text="{Binding Login, StringFormat=  login: - {0} }"/>
+                        <TextBlock Text="Список товаров:"/>
+                        <ItemsControl ItemsSource="{Binding DetailOrders}" Margin="10, 0">
+			                <ItemsControl.ItemTemplate >
+				               <DataTemplate>
+                                   <StackPanel Orientation="Vertical" Margin="10">
+                                       <StackPanel Orientation="Horizontal">
+									        <TextBlock Text="{Binding Product.Name, StringFormat=  Название: {0}}"/>
+									        <TextBlock Text="{Binding Product.Manufacture.Name, StringFormat=  Производитель: {0}}"  Margin="10, 0"/>
+                                       </StackPanel>
+                                       <StackPanel Orientation="Horizontal">
+									        <TextBlock Text="{Binding Size.Name, StringFormat=  Размер: {0}}"/>
+									        <TextBlock Text="{Binding Count, StringFormat=  Кол-во: {0}}"  Margin="10, 0"/>
+                                       </StackPanel>
+                                       <TextBlock Text="{Binding Product.DiscountPrice, StringFormat=  Цена: {0}}"/>
+                                       <Button Content="Удалить"
+                                               Background="Transparent"
+                                               HorizontalAlignment="Stretch"/>
+                                   </StackPanel>
+                               </DataTemplate>
+			                </ItemsControl.ItemTemplate>
+		                </ItemsControl>
+                    </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                            <Button
+                            VerticalAlignment="Center"
+                            Content="Редактировать"
+                            HorizontalAlignment="Stretch"
+                            Margin="8"
+                            Padding="8"
+                            Background="#E85A3A"
+                            Foreground="White"
+                            CornerRadius="6"
+                            />
+                            <Button
+                            VerticalAlignment="Center"
+                            Content="Удалить"
+                            HorizontalAlignment="Stretch"
+                            Margin="8"
+                            Padding="8"
+                            Background="#E85A3A"
+                            Foreground="White"
+                            CornerRadius="6"
+                            />
+                        </StackPanel>
+                    </Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</ScrollViewer>
+    </Grid>
   
 </UserControl>

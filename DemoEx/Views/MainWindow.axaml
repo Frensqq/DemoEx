@@ -119,7 +119,7 @@
         <!-- Подвал -->
         <Grid Grid.Column="1" Grid.Row="2" Background="#1F1C1F">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Foreground="#B0A8A8" Text="frens-project.tech"/>
+                       Foreground="#B0A8A8" Text="А тут конец"/>
         </Grid>
     </Grid>
 </Window>
