@@ -15,41 +15,25 @@
 
     <Grid ColumnDefinitions="180,*,Auto" RowDefinitions="Auto,*,Auto">
 
-        <!-- Боковая панель -->
-        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-            <Grid RowDefinitions="Auto,*,Auto" Background="#2E2A2E">
+        <!-- Сайдбар: текущий заказ -->
+        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Background="#D2F6E7">
+            <Grid RowDefinitions="Auto,*,Auto">
 
-                <!-- Верх: пользователь + вход -->
-                
-
-                <!-- Середина: список текущего заказа -->
-                <ScrollViewer Grid.Row="1" Margin="0,16,0,0">
-                    <StackPanel>
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel Spacing="5" Margin="5">
                         <TextBlock Text="Текущий заказ"
                                    IsVisible="{Binding IsAuth}"
-                                   Foreground="White"
                                    FontWeight="600"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,8"/>
+                                   HorizontalAlignment="Center"/>
 
                         <ItemsControl ItemsSource="{Binding CurrentOrder.DetailOrders}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="#3A3438"
-                                            Margin="6,3"
-                                            Padding="6"
-                                            CornerRadius="4">
+                                    <Border Background="#FFFFFF" Margin="0,0,0,5" Padding="5">
                                         <StackPanel>
-                                            <TextBlock Text="{Binding Product.Name}"
-                                                       Foreground="White"
-                                                       FontWeight="600"
-                                                       TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding Size.Name, StringFormat='Размер: {0}'}"
-                                                       Foreground="#CFC7C7"
-                                                       FontSize="12"/>
-                                            <TextBlock Text="{Binding Count, StringFormat='Кол-во: {0}'}"
-                                                       Foreground="#CFC7C7"
-                                                       FontSize="12"/>
+                                            <TextBlock Text="{Binding Product.Name}" FontWeight="600" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Size.Name, StringFormat='Размер: {0}'}"/>
+                                            <TextBlock Text="{Binding Count, StringFormat='Кол-во: {0}'}"/>
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>
@@ -58,75 +42,58 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <!-- Низ: кнопка оформления -->
-                <StackPanel Grid.Row="2" Orientation="Vertical" >
+                <!-- Низ: кнопки -->
+                <StackPanel Grid.Row="2" Spacing="5" Margin="5">
 
-                    <Button
-                            Content="Оформить заказ"
+                    <Button Content="Оформить заказ"
                             HorizontalAlignment="Stretch"
-                            Margin="8"
-                            Padding="8"
-                            Background="#E85A3A"
+                            HorizontalContentAlignment="Center"
+                            Background="#70B2AF"
                             Foreground="White"
-                            CornerRadius="6"
                             Command="{Binding CreateOrderCommand}"
                             IsVisible="{Binding CurrentOrder, Converter={x:Static ObjectConverters.IsNotNull}}"/>
 
-                    <Button
-                            Content="{Binding ListOrderButtonName}"
+                    <Button Content="{Binding ListOrderButtonName}"
                             HorizontalAlignment="Stretch"
-                            Margin="8"
-                            Padding="8"
-                            Background="#E85A3A"
-                            IsVisible="{Binding ListOrderButtonVisible}"
+                            HorizontalContentAlignment="Center"
+                            Background="#70B2AF"
                             Foreground="White"
-                            CornerRadius="6"
-                            Command="{Binding ListOrderToMainWindowCommand}"
-                            />
+                            IsVisible="{Binding ListOrderButtonVisible}"
+                            Command="{Binding ListOrderToMainWindowCommand}"/>
                 </StackPanel>
             </Grid>
         </Grid>
 
-        <!-- Шапка -->
-        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="#3A3438">
-            <StackPanel Height="60" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Foreground="White" FontSize="22" FontWeight="700">
-                    Чудо обувь — чудо а не обувь
-                </TextBlock>
+        <!-- Шапка с логотипом -->
+        <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="#D2F6E7">
+            <StackPanel Orientation="Horizontal" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+                <Image Source="avares://DemoEx/Assets/ChydoObuv.ico" Height="40" Stretch="Uniform"/>
+                <TextBlock FontSize="22" FontWeight="700" VerticalAlignment="Center" Text="Чудо обувь"/>
             </StackPanel>
-
-            
         </Grid>
 
-        <Grid Grid.Row="0" Grid.Column="2" Background="#3A3438">
+        <!-- Пользователь и вход -->
+        <Grid Grid.Row="0" Grid.Column="2" Background="#D2F6E7">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <TextBlock TextAlignment="Center"
+                           FontWeight="600"
+                           TextWrapping="Wrap"
+                           Text="{Binding CurrentUserName}"/>
 
-			    <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock TextAlignment="Center"
-                               FontSize="14"
-                               Foreground="White"
-                               FontWeight="600"
-                               Margin="0,24,0,12"
-                               TextWrapping="Wrap"
-                               Text="{Binding CurrentUserName}"/>
-
-                    <Button HorizontalAlignment="Center"
-                            Content="Вход"
-                            Background="#E85A3A"
-                            Foreground="White"
-                            Padding="24,10"
-                            CornerRadius="6"
-                            FontWeight="600"
-                            Command="{Binding ToLogPageCommand}"/>
-                </StackPanel>
+                <Button HorizontalAlignment="Center"
+                        Content="Вход"
+                        Background="#70B2AF"
+                        Foreground="White"
+                        Command="{Binding ToLogPageCommand}"/>
+            </StackPanel>
         </Grid>
 
         <!-- Контент -->
         <ContentControl Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Content="{Binding Page}"/>
 
         <!-- Подвал -->
-        <Grid Grid.Column="1" Grid.Row="2" Background="#1F1C1F">
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Foreground="#B0A8A8" Text="А тут конец"/>
+        <Grid Grid.Column="1" Grid.Row="2" Background="#D2F6E7">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="А тут конец"/>
         </Grid>
     </Grid>
 </Window>

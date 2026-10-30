@@ -14,9 +14,20 @@
     <Application.Styles>
         <FluentTheme />
 
+
+        <Style Selector="Window, UserControl">
+        <Setter Property="FontFamily" Value="Calibri"/>
+    </Style>
+
+    <!-- Акцентные кнопки (замена красного #E85A3A на #70B2AF) -->
+        <Style Selector="Button.accent">
+            <Setter Property="Background" Value="#70B2AF"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
         <Style Selector="TextBlock.hasDiscount">
-            <Setter Property="Foreground" Value="red"/>
-            <Setter Property="Background" Value="white"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="Background" Value="White"/>
             <Setter Property="FontWeight" Value="700"/>
             <Setter Property="TextDecorations" Value="Strikethrough"/>
         </Style>

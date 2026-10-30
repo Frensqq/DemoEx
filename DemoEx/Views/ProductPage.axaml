@@ -5,106 +5,97 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="DemoEx.Views.ProductPage"
 			 xmlns:vm="using:DemoEx.ViewModels"
-			 xmlns:conv="clr-namespace:DemoEx.Resources"
-			 x:DataType="vm:MainWindowViewModel"
-			 >
+			 x:DataType="vm:MainWindowViewModel">
 
 	<Design.DataContext>
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
-	<!--xmlns:conv="using:Demoex"-->
-	<Grid Grid.RowDefinitions="Auto,*">
-		<Border Grid.Row="0" Background="#EEF1F4" Padding="12">
-		<StackPanel Orientation="Horizontal" Spacing="16">
 
-			<StackPanel Orientation="Horizontal" Spacing="6">
-            <TextBlock Text="Сортировка:" VerticalAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding SortOption}"
-                      SelectedItem="{Binding SelectedSort}"
-                      Width="180"/>
+	<Grid RowDefinitions="Auto,*" Background="#FFFFFF">
+
+		<!-- Панель фильтров -->
+		<Border Grid.Row="0" Background="#D2F6E7" Padding="10">
+			<StackPanel Orientation="Horizontal" Spacing="10" IsVisible="{Binding IsAuth}">
+
+				<StackPanel Orientation="Horizontal" Spacing="5">
+					<TextBlock Text="Сортировка:" VerticalAlignment="Center"/>
+					<ComboBox ItemsSource="{Binding SortOption}" SelectedItem="{Binding SelectedSort}" Width="180"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Spacing="5">
+					<TextBlock Text="Фильтр:" VerticalAlignment="Center"/>
+					<ComboBox ItemsSource="{Binding FilterOption}" SelectedItem="{Binding SelectedFilter}" Width="180"/>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Spacing="5">
+					<TextBlock Text="Поиск:" VerticalAlignment="Center"/>
+					<TextBox Text="{Binding SelectedSearch}" Width="260" Watermark="Название или описание"/>
+				</StackPanel>
+
 			</StackPanel>
+		</Border>
 
-			<StackPanel Orientation="Horizontal" Spacing="6">
-            <TextBlock Text="Фильтр:" VerticalAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding FilterOption}"
-                      SelectedItem="{Binding SelectedFilter}"
-                      Width="180"/>
-			</StackPanel>
+		<!-- Карточки -->
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+			<ItemsControl ItemsSource="{Binding SortProducts}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid Grid.ColumnDefinitions="Auto,*,Auto" Margin="10" 
+							  Background="{Binding CountColor}">
 
-			<StackPanel Orientation="Horizontal" Spacing="6">
-            <TextBlock Text="Поиск:" VerticalAlignment="Center"/>
-            <TextBox Text="{Binding SelectedSearch}"
-                     Width="260"
-                     Watermark="Название или описание"/>
-			</StackPanel>
-
-		</StackPanel>
-	</Border>
-	<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-		<ItemsControl ItemsSource="{Binding SortProducts}">
-			<ItemsControl.ItemTemplate >
-				<DataTemplate >
-					<Grid Grid.ColumnDefinitions="Auto,*,Auto" Margin="10" 
-						  Background="{Binding CountColor}" >
-
-						<Image Grid.Column="0"
-							   Source="{Binding ImageBitmap}"
-							   Width="120"
-							   Height="120"
-							   Stretch="Uniform"
-							   Margin="8"
-							   VerticalAlignment="Center"/>
-
-						<StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-							<TextBlock Classes.hasDiscount = "{Binding Discount}"  Text="{Binding Price}"
-								   FontSize="24"
-								   VerticalAlignment="Center"/>	
-							<TextBlock IsVisible="{Binding Discount}" Text="{Binding DiscountPrice}"
-								   FontSize="16"
-								   FontWeight="400"
+							<Image Grid.Column="0"
+								   Source="{Binding ImageBitmap}"
+								   Width="120" Height="120"
+								   Stretch="Uniform"
+								   Margin="8"
 								   VerticalAlignment="Center"/>
-							<Button IsVisible="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).IsAuth}"
-									Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).toOrderPageCommand}" CommandParameter="{Binding}" Content="Заказать"/>
-								
-							
-						</StackPanel>
-								  
 
-						<Grid Grid.Column="1"
-							  HorizontalAlignment="Stretch"
-							  VerticalAlignment="Stretch">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-							</Grid.RowDefinitions>
-
-							<WrapPanel Grid.Row="0"
-									   Orientation="Horizontal"
-									   HorizontalAlignment="Center"
-									   VerticalAlignment="Top">
-								<TextBlock Text="{Binding Manufacture.Name}"/>
-								<TextBlock Text=" | "/>
-								<TextBlock Text="{Binding Name}"/>
-							</WrapPanel>
-
-							<StackPanel Grid.Row="1"
-										Orientation="Vertical"
-										HorizontalAlignment="Left"
-										VerticalAlignment="Center"
-										Margin="8,8,8,8">
-								<TextBlock Text="{Binding Category.Name ,  StringFormat = Категория: {0} }" />
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Count,  StringFormat = Колличество: {0} }"/>
-									<TextBlock Text="{Binding CountText }" Padding="5,0"/>
-								</StackPanel>
-								<TextBlock Text="{Binding Structure,  StringFormat = Состав: {0} }"/>
+							<StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+								<!-- Если скидка есть: красная зачеркнутая цена -->
+								<TextBlock IsVisible="{Binding Discount}" 
+										   Text="{Binding Price, StringFormat={}{0:C}}" 
+										   FontSize="24" 
+										   Foreground="Red"
+										   TextDecorations="Strikethrough"
+										   VerticalAlignment="Center"/>
+										   
+								<!-- Цена (с учетом скидки или без) -->
+								<TextBlock Text="{Binding DiscountPrice, StringFormat={}{0:C}}" 
+										   FontSize="16" 
+										   Foreground="Gray"
+										   VerticalAlignment="Center"/>
+										   
+								<Button IsVisible="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).IsAuth}"
+										Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).toOrderPageCommand}"
+										CommandParameter="{Binding}"
+										Content="Заказать"/>
 							</StackPanel>
-						</Grid>
-					</Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
 
-		</ItemsControl>
-	</ScrollViewer>
+							<Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
+
+								<WrapPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+									<TextBlock Text="{Binding Manufacture.Name}"/>
+									<TextBlock Text=" | "/>
+									<TextBlock Text="{Binding Name}"/>
+								</WrapPanel>
+
+								<StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8">
+									<TextBlock Text="{Binding Category.Name, StringFormat='Категория: {0}'}"/>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding Count, StringFormat='Количество: {0}'}"/>
+										<TextBlock Text="{Binding CountText}" Padding="5,0"/>
+									</StackPanel>
+									<TextBlock Text="{Binding Structure, StringFormat='Состав: {0}'}"/>
+								</StackPanel>
+							</Grid>
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
 	</Grid>
 </UserControl>

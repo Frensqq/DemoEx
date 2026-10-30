@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 
 namespace DemoEx.ViewModels
 {
@@ -40,14 +41,7 @@ namespace DemoEx.ViewModels
         bool listOrderButtonVisible = false;
 
         [ObservableProperty]
-        ObservableCollection<Order> orderList = new(db.Orders
-            .Include(x => x.LoginNavigation)
-            .Include(x => x.DetailOrders)
-                .ThenInclude(x => x.Size)
-            .Include(x => x.DetailOrders)
-                .ThenInclude(x => x.Product)
-
-            .ToList());
+        ObservableCollection<Order> orderList = new();
 
         [RelayCommand]
         void DeleteOrder(object obj)
@@ -74,9 +68,12 @@ namespace DemoEx.ViewModels
             {
                
                 order.Date = DateOnly.FromDateTime(order.newDate.Date);
+                db.Orders.Update(order);
                 db.SaveChanges();
 
             }
+
+            updateOrderList();
 
         }
 
@@ -84,14 +81,13 @@ namespace DemoEx.ViewModels
         void updateOrderList()
         {
             OrderList = new(db.Orders
-            .Include(x => x.LoginNavigation)
-            .Include(x => x.DetailOrders)
-                .ThenInclude(x => x.Size)
-            .Include(x => x.DetailOrders)
-                .ThenInclude(x => x.Product)
+                .Include(x => x.LoginNavigation)
+                .Include(x => x.DetailOrders).ThenInclude(x => x.Size)
+                .Include(x => x.DetailOrders).ThenInclude(x => x.Product)
+                .ToList());
 
-            .ToList());
-
+            foreach (var o in OrderList)
+                o.newDate = new DateTimeOffset(o.Date.ToDateTime(TimeOnly.MinValue));
         }
 
 
@@ -140,7 +136,12 @@ namespace DemoEx.ViewModels
 
         [ObservableProperty]
         string loginError = string.Empty;
-        
+
+        [ObservableProperty]
+        bool isAdmin;
+
+        [ObservableProperty]
+        ObservableCollection<User> users = new( db.User.ToList());
 
         [RelayCommand]
         void LoginIn()
@@ -152,6 +153,8 @@ namespace DemoEx.ViewModels
                 IsAuth = true;
                 CurrentUserName = current.Name + " " + current.Surname + " " + current.Patronimyc;
                 CurrentUser =current ;
+                IsAdmin = current.IdRole == 1;
+
 
                 if (current.IdRole < 3)
                 {
@@ -268,8 +271,7 @@ namespace DemoEx.ViewModels
 
         // данные с бд
 
-        [ObservableProperty]
-        List<User> users = db.Users.ToList();
+      
 
         static ObservableCollection<Product> products = new(db.Products
             .Include(x => x.Category)
@@ -277,6 +279,12 @@ namespace DemoEx.ViewModels
             .Include(x => x.DetailOrders).ThenInclude(x => x.Order)
             .Include(x => x.Stoks).ThenInclude(s => s.Size)
             .ToList());
+
+
+        static ObservableCollection<Category> categories = new(db.Categories.ToList());
+
+
+
 
         [ObservableProperty]
         ObservableCollection<Product> sortProducts = new(products);
@@ -286,7 +294,6 @@ namespace DemoEx.ViewModels
 
         //сортировка, фильтрация и поиск
 
-        static ObservableCollection<Category> categories = new(db.Categories.ToList());
 
         public ObservableCollection<string> FilterOption { get; } = new(
             new[] { "Все категории" }.Concat(categories.Select(p => p.Name).Distinct().ToList()));

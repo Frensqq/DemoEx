@@ -7,8 +7,6 @@
         x:DataType="vm:MainWindowViewModel"
         x:Class="DemoEx.Views.OrderWindow"
         Width="700" Height="700"
-        CanResize="False"
-        WindowStartupLocation="CenterOwner"
         Title="Оформление заказа">
 
     <Window.Styles>
@@ -18,127 +16,76 @@
         </Style>
     </Window.Styles>
 
-    <Grid RowDefinitions="Auto,*,Auto" Background="#F7F7F7">
+    <Grid RowDefinitions="Auto,*,Auto" Background="#FFFFFF">
 
-        <!-- Шапка -->
-        <Border Grid.Row="0" Background="#3A3438" Padding="20,14">
-            <TextBlock Text="Оформление заказа"
-                       Foreground="White"
-                       FontSize="20"
-                       FontWeight="700"/>
+        <Border Grid.Row="0" Background="#D2F6E7" Padding="10">
+            <TextBlock Text="Оформление заказа" FontSize="20" FontWeight="700"/>
         </Border>
 
-        <!-- Контент -->
-        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" Margin="24" ColumnSpacing="24">
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="10" Spacing="10">
 
-            <Border Grid.Column="0"
-        Background="White"
-        BorderBrush="#E0E0E0"
-        BorderThickness="1"
-        Padding="12"
-        VerticalAlignment="Top">
-    <StackPanel Spacing="12">
+                <Image Source="{Binding CurrentProduct.ImageBitmap}" Width="150" Height="150"/>
 
-        <Image Source="{Binding CurrentProduct.ImageBitmap}"
-               Width="200" Height="200"
-               Stretch="Uniform"/>
+                <TextBlock Text="{Binding CurrentProduct.Name}" FontSize="20" FontWeight="700"/>
+                <TextBlock Text="{Binding CurrentProduct.Manufacture.Name}"/>
 
-        <StackPanel Spacing="4">
-            <TextBlock Text="Размер:" FontWeight="600"/>
-        <ComboBox ItemsSource="{Binding CurrentProduct.Stoks}"
-                  SelectedItem="{Binding CurrentStock, Mode=TwoWay}"
-                  HorizontalAlignment="Stretch">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Size.Name, StringFormat=Размер {0}}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox> 
-        </StackPanel>
-
-        <TextBlock Text="{Binding OrderError}" Foreground="Red" TextWrapping="Wrap"/>
-
-        <StackPanel Spacing="4">
-            <TextBlock Text="Количество:" FontWeight="600"/>
-                  <NumericUpDown Classes="arrowsOnly"
-                       Value="{Binding CurrentCount, Mode=TwoWay}"
-                       Minimum="0"
-                       Maximum="{Binding CurrentStock.Count}"
-                       Increment="1"
-                       FormatString="0"
-                       HorizontalAlignment="Stretch"/>  
-        </StackPanel>
-
-    </StackPanel>
-</Border>
-
-            <StackPanel Grid.Column="1" Spacing="10">
-
-                <TextBlock Text="{Binding CurrentProduct.Name}"
-                           FontSize="22" FontWeight="700"
-                           TextWrapping="Wrap"/>
-
-                <TextBlock Text="{Binding CurrentProduct.Manufacture.Name}"
-                           FontSize="14" Foreground="#8A8578"/>
-
-                <StackPanel Orientation="Horizontal" Spacing="12">
-                    <TextBlock Text="{Binding CurrentProduct.Price, StringFormat={}{0:C}}"
-                               FontSize="20" FontWeight="600"/>
+                <!-- Цена и скидка -->
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="{Binding CurrentProduct.Price, StringFormat={}{0:C}}" FontSize="18" FontWeight="600"/>
                     <TextBlock Text="{Binding CurrentProduct.DiscountPrice, StringFormat={}{0:C}}"
-                               FontSize="18" Foreground="#E85A3A"
+                               FontSize="16"
+                               Foreground="Red"
                                IsVisible="{Binding CurrentProduct.Discount}"/>
                 </StackPanel>
 
-                <Rectangle Height="1" Fill="#E0E0E0" Margin="0,6"/>
+                <TextBlock Text="{Binding CurrentProduct.Category.Name, StringFormat='Категория: {0}'}"/>
+                <TextBlock Text="{Binding CurrentProduct.Structure, StringFormat='Состав: {0}'}"/>
+                <TextBlock Text="{Binding CurrentProduct.Description, StringFormat='Описание: {0}'}"/>
 
-                <TextBlock Text="{Binding CurrentProduct.Category.Name, StringFormat=Категория: {0}}"/>
-                <TextBlock Text="{Binding CurrentProduct.Structure, StringFormat=Состав: {0}}"
-                           TextWrapping="Wrap"/>
-                <TextBlock Text="{Binding CurrentProduct.Description, StringFormat=Описание: {0}}"
-                           TextWrapping="Wrap"/>
+                <TextBlock Text="Размер:" FontWeight="600"/>
+                <ComboBox ItemsSource="{Binding CurrentProduct.Stoks}"
+                          SelectedItem="{Binding CurrentStock, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Size.Name, StringFormat='Размер {0}'}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
-                <TextBlock Text="Доступные размеры:"
-                           FontWeight="600"
-                           Margin="0,10,0,0"/>
+                <TextBlock Text="Количество:" FontWeight="600"/>
+                <NumericUpDown Classes="arrowsOnly"
+                               Value="{Binding CurrentCount, Mode=TwoWay}"
+                               Minimum="0"
+                               Maximum="{Binding CurrentStock.Count}"
+                               Increment="1"
+                               FormatString="0"/>
 
+                <TextBlock Text="{Binding OrderError}" Foreground="#ff8080"/>
+
+                <TextBlock Text="Доступные размеры:" FontWeight="600"/>
                 <ItemsControl ItemsSource="{Binding CurrentProduct.Stoks}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="White"
-                                    BorderBrush="#E0E0E0"
-                                    BorderThickness="1"
-                                    Padding="8,4"
-                                    Margin="0,2">
-                                <Grid ColumnDefinitions="*,Auto">
-                                    <TextBlock Grid.Column="0"
-                                               Text="{Binding Size.Name, StringFormat=Размер: {0}}"/>
-                                    <TextBlock Grid.Column="1"
-                                               Text="{Binding Count, StringFormat=В наличии: {0} шт.}"/>
-                                </Grid>
-                            </Border>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Column="0" Text="{Binding Size.Name, StringFormat='Размер: {0}'}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Count, StringFormat='{}{0} шт.'}"/>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
             </StackPanel>
-        </Grid>
+        </ScrollViewer>
 
-        <!-- Кнопки -->
-        <Border Grid.Row="2" Background="#EDE7DE" Padding="24,14">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
-                <Button Content="Отмена"
-                        Click="OnCancelClick"
-                        Padding="24,10"
-                        CornerRadius="6"/>
+        <Border Grid.Row="2" Background="#D2F6E7" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                <Button Content="Отмена" Click="OnCancelClick"/>
                 <Button Content="Добавить в заказ"
                         Command="{Binding AddToOrderCommand}"
-                        Background="#E85A3A"
-                        Foreground="White"
-                        Padding="24,10"
-                        CornerRadius="6"
-                        FontWeight="600"/>
+                        Background="#70B2AF"
+                        Foreground="White"/>
             </StackPanel>
         </Border>
-
     </Grid>
 </Window>

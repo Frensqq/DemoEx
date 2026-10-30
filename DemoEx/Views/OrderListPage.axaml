@@ -5,98 +5,95 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="DemoEx.Views.OrderListPage"
              xmlns:vm="using:DemoEx.ViewModels"
-			 xmlns:conv="clr-namespace:DemoEx.Resources"
-			 x:DataType="vm:MainWindowViewModel"
-             >
+             x:DataType="vm:MainWindowViewModel">
 
+    <Grid RowDefinitions="Auto,*" Background="#FFFFFF">
 
-    <Grid RowDefinitions="Auto,*">
-        <Border Grid.Row="0" Background="#3A3438" Padding="20,14">
-            <TextBlock Text="Список заказов"
-                       Foreground="White"
-                       FontSize="20"
-                       FontWeight="700"/>
+        <Border Grid.Row="0" Background="#D2F6E7" Padding="10">
+            <TextBlock Text="Список заказов" FontSize="20" FontWeight="700"/>
         </Border>
-		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-		<ItemsControl ItemsSource="{Binding OrderList}" Margin="10">
-			<ItemsControl.ItemTemplate >
-				<DataTemplate>
-                    <Grid ColumnDefinitions="*,Auto">
-                    <StackPanel Orientation="Vertical" Margin="10" Grid.Column="0">
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding OrderList}" Margin="10">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
                         
-                    <StackPanel Orientation="Horizontal">
-						<TextBlock Text="{Binding Id, StringFormat=  id: - {0} }"/>
-						<TextBlock Text="{Binding Date, StringFormat=  date: - {0} }" Margin="10,0"/>
+                        <Border BorderBrush="Gray" BorderThickness="1" Margin="0,0,0,10">
+                            <Grid ColumnDefinitions="*,Auto" Margin="10">
 
-                    </StackPanel>  
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Login, StringFormat=  login: - {0} }"/>
-                        <TextBlock Text="{Binding LoginNavigation.Name}" Margin="3,0"/>
-                        <TextBlock Text="{Binding LoginNavigation.Surname}"  Margin="3,0"/>
-                        <TextBlock Text="{Binding LoginNavigation.Patronimyc}" Margin="3,0"/>
-                    </StackPanel>
-                        <TextBlock Text="Список товаров:"/>
-                        <ItemsControl ItemsSource="{Binding DetailOrders}" Margin="10, 0">
-			                <ItemsControl.ItemTemplate >
-				               <DataTemplate>
-                                   <StackPanel Orientation="Vertical" Margin="10">
-                                       <StackPanel Orientation="Horizontal">
-									        <TextBlock Text="{Binding Product.Name, StringFormat=  Название: {0}}"/>
-									        <TextBlock Text="{Binding Product.Manufacture.Name, StringFormat=  Производитель: {0}}"  Margin="10, 0"/>
-                                       </StackPanel>
-                                       <StackPanel Orientation="Horizontal">
-									        <TextBlock Text="{Binding Size.Name, StringFormat=  Размер: {0}}"/>
-									        <TextBlock Text="{Binding Count, StringFormat=  Кол-во: {0}}"  Margin="10, 0"/>
-                                       </StackPanel>
-                                       <TextBlock Text="{Binding Product.DiscountPrice, StringFormat=  Цена: {0}}"/>
-                                       <Button Content="Удалить"
-                                               Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteOrderCommand}" 
-                                               CommandParameter="{Binding}"
-                                               Background="Transparent"
-                                               HorizontalAlignment="Stretch"
-                                               />
-                                   </StackPanel>
-                               </DataTemplate>
-			                </ItemsControl.ItemTemplate>
-		                </ItemsControl>
-                    </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                            <StackPanel>
+                                <StackPanel Grid.Column="0" Spacing="5">
 
-                               <DatePicker SelectedDate="{Binding newDate}" />
-									
-								<Button
-                            VerticalAlignment="Center"
-                            Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).RedactDateCommand}" 
-                            CommandParameter="{Binding}"
-                            Content="Save"
-                            HorizontalAlignment="Stretch"
-                            Margin="4"
-                            Padding="4"
-                            Background="#E85A3A"
-                            Foreground="White"
-                            CornerRadius="6"
-                            />
-                            </StackPanel>
-                            
-                            <Button
-                            VerticalAlignment="Center"
-                            Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteOrderCommand}" 
-                            CommandParameter="{Binding}"
-                            Content="Удалить"
-                            HorizontalAlignment="Stretch"
-                            Margin="8"
-                            Padding="8"
-                            Background="#E85A3A"
-                            Foreground="White"
-                            CornerRadius="6"
-                            />
-                        </StackPanel>
-                    </Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</ScrollViewer>
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="{Binding Id, StringFormat='id: {0}'}" FontWeight="600"/>
+                                        <TextBlock Text="{Binding Date, StringFormat='date: {0}'}"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="{Binding Login, StringFormat='login: {0}'}"/>
+                                        <TextBlock Text="{Binding LoginNavigation.Name}"/>
+                                        <TextBlock Text="{Binding LoginNavigation.Surname}"/>
+                                        <TextBlock Text="{Binding LoginNavigation.Patronimyc}"/>
+                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding TotalSum, StringFormat='Итого: {0:C}'}" FontWeight="600"/>
+
+                                    <TextBlock Text="Список товаров:"/>
+
+                                    <ItemsControl ItemsSource="{Binding DetailOrders}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Spacing="5" Margin="10,5,0,5">
+                                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                                        <TextBlock Text="{Binding Product.Name, StringFormat='Название: {0}'}"/>
+                                                        <TextBlock Text="{Binding Product.Manufacture.Name, StringFormat='Производитель: {0}'}"/>
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                                        <TextBlock Text="{Binding Size.Name, StringFormat='Размер: {0}'}"/>
+                                                        <TextBlock Text="{Binding Count, StringFormat='Кол-во: {0}'}"/>
+                                                    </StackPanel>
+                                                    <TextBlock Text="{Binding Product.DiscountPrice, StringFormat='Цена: {0:C}'}"/>
+
+                                                    <!-- Удаление позиции: только админ -->
+                                                    <Button Content="Удалить позицию"
+                                                            IsVisible="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).IsAdmin}"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Center"
+                                                            Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteOrderCommand}"
+                                                            CommandParameter="{Binding}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+
+                                <!-- Правая часть -->
+                                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Spacing="5" Margin="10,0,0,0">
+
+                                    <StackPanel IsVisible="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).IsAdmin}" Spacing="5">
+                                        <DatePicker SelectedDate="{Binding newDate}"/>
+                                        <Button Content="Сохранить"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Center"
+                                                Background="#70B2AF"
+                                                Foreground="White"
+                                                Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).RedactDateCommand}"
+                                                CommandParameter="{Binding}"/>
+                                    </StackPanel>
+
+                                    <Button Content="Удалить заказ"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            Background="#70B2AF"
+                                            Foreground="White"
+                                            Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteOrderCommand}"
+                                            CommandParameter="{Binding}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
-  
 </UserControl>
