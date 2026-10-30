@@ -32,6 +32,7 @@ namespace DemoEx.ViewModels
 
 
 
+
         [ObservableProperty]
         string listOrderButtonName;
 
@@ -48,6 +49,7 @@ namespace DemoEx.ViewModels
 
             .ToList());
 
+        [RelayCommand]
         void DeleteOrder(object obj)
         {
 
@@ -62,6 +64,19 @@ namespace DemoEx.ViewModels
             db.SaveChanges();
             updateOrderList();
             Page = new OrderListPage();
+
+        }
+
+        [RelayCommand]
+        void RedactDate(Order order)
+        {
+            if(order != null && order.newDate != null)
+            {
+               
+                order.Date = DateOnly.FromDateTime(order.newDate.Date);
+                db.SaveChanges();
+
+            }
 
         }
 
@@ -120,8 +135,6 @@ namespace DemoEx.ViewModels
             Page = new LoginPage();
         }
 
-
-
         [ObservableProperty]
         bool isAuth = false;
 
@@ -137,7 +150,7 @@ namespace DemoEx.ViewModels
             if (!string.IsNullOrEmpty(Currentlogin) && current != null)
             {
                 IsAuth = true;
-                CurrentUserName = current.Name + "\n" + current.Surname + "\n" + current.Patronimyc;
+                CurrentUserName = current.Name + " " + current.Surname + " " + current.Patronimyc;
                 CurrentUser =current ;
 
                 if (current.IdRole < 3)

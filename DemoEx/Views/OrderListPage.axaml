@@ -27,8 +27,14 @@
                     <StackPanel Orientation="Horizontal">
 						<TextBlock Text="{Binding Id, StringFormat=  id: - {0} }"/>
 						<TextBlock Text="{Binding Date, StringFormat=  date: - {0} }" Margin="10,0"/>
-                    </StackPanel>                       						
+
+                    </StackPanel>  
+                    <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Login, StringFormat=  login: - {0} }"/>
+                        <TextBlock Text="{Binding LoginNavigation.Name}" Margin="3,0"/>
+                        <TextBlock Text="{Binding LoginNavigation.Surname}"  Margin="3,0"/>
+                        <TextBlock Text="{Binding LoginNavigation.Patronimyc}" Margin="3,0"/>
+                    </StackPanel>
                         <TextBlock Text="Список товаров:"/>
                         <ItemsControl ItemsSource="{Binding DetailOrders}" Margin="10, 0">
 			                <ItemsControl.ItemTemplate >
@@ -44,26 +50,39 @@
                                        </StackPanel>
                                        <TextBlock Text="{Binding Product.DiscountPrice, StringFormat=  Цена: {0}}"/>
                                        <Button Content="Удалить"
+                                               Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteOrderCommand}" 
+                                               CommandParameter="{Binding}"
                                                Background="Transparent"
-                                               HorizontalAlignment="Stretch"/>
+                                               HorizontalAlignment="Stretch"
+                                               />
                                    </StackPanel>
                                </DataTemplate>
 			                </ItemsControl.ItemTemplate>
 		                </ItemsControl>
                     </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-                            <Button
+                            <StackPanel>
+
+                               <DatePicker SelectedDate="{Binding newDate}" />
+									
+								<Button
                             VerticalAlignment="Center"
-                            Content="Редактировать"
+                            Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).RedactDateCommand}" 
+                            CommandParameter="{Binding}"
+                            Content="Save"
                             HorizontalAlignment="Stretch"
-                            Margin="8"
-                            Padding="8"
+                            Margin="4"
+                            Padding="4"
                             Background="#E85A3A"
                             Foreground="White"
                             CornerRadius="6"
                             />
+                            </StackPanel>
+                            
                             <Button
                             VerticalAlignment="Center"
+                            Command="{Binding $parent[UserControl].((vm:MainWindowViewModel)DataContext).DeleteOrderCommand}" 
+                            CommandParameter="{Binding}"
                             Content="Удалить"
                             HorizontalAlignment="Stretch"
                             Margin="8"
